@@ -1,0 +1,26 @@
+﻿Folders
+_______
+1. Input
+	a. datafilename1.csv
+	b. ...
+2. Output
+3. Template
+	a. FormatName1 (Folder)
+		i)Main_<format of output file>.xyz eg : Main_{formatname}_{datafilename}.txt
+		ii)Row1.txt 
+		iii)...
+	b. ...
+
+Replaces key words(Case insensitive)
+___________________
+1.Main file name and content
+	a. {formatname}
+	b. {datafilename}
+2.Main file content
+	a. {Row1}
+	b. {Row2}
+	c. ...
+3.Sub File(Row1.txt etc) Content
+	a.Columns
+4.All curly brackets
+	a.R
