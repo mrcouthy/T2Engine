@@ -1,0 +1,6 @@
+firstrow:
+{0} varchar({1}) ek number,
+otherrow:
+{0} varchar({1}),
+lastrow:
+{0} varchar({1}) last nuber
