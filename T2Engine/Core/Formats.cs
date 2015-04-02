@@ -8,17 +8,18 @@ namespace T2Engine.Core
 {
     public static class Formats
     {
-
+        static readonly List<string> markers = new List<string> { "firstRow", "otherRow", "lastRow" };
         private static string GetRowFormats(string rowFormats, string valueOf)
         {
-            var markers = new List<string> { "fristRow", "otherRow", "lastRow" };
             return rowFormats.GetStringFor(markers, valueOf);
         }
 
-        public static string GetFirstRowFormats(string rowFormats )
+      
+
+        public static string GetFirstRowFormats(string rowFormats)
         {
-            string str = GetRowFormats(rowFormats, "fristRow");
-            if (str.Length ==0)
+            string str = GetRowFormats(rowFormats, "firstRow");
+            if (str.Length == 0)
             {
                 str = GetOtherRowFormats(rowFormats);
             }

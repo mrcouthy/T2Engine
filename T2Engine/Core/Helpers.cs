@@ -33,6 +33,14 @@ namespace T2Engine.Helpers
             return sb.ToString();
         }
 
+        private static string RemoveFirstLine(this string str)
+        {
+            const int noOflines = 1;
+            string[] lines = str.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).Skip(1).ToArray();
+            string output = string.Join(Environment.NewLine, lines);
+            return output.Trim();
+        }
+
         public static string GetStringFor(this string str, List<string> markers, string valueOf)
         {
             foreach (var marker in markers)
@@ -45,7 +53,9 @@ namespace T2Engine.Helpers
                         return string.Empty;
                     }
                     var toPosition = str.GetPositionJustGreaterThan(markers, fromPosition);
-                    return str.Substring(fromPosition, toPosition - fromPosition);
+                    string strr= str.Substring(fromPosition, toPosition - fromPosition);
+                    strr = strr.RemoveFirstLine();
+                    return strr;
                 }
             }
             return string.Empty;
@@ -61,9 +71,9 @@ namespace T2Engine.Helpers
             foreach (var p in positions)
             {
                 if (p > position)
-                    pos = p;
+                    return p;
             }
-            return pos;
+            return str.Length;
         }
     }
 }
