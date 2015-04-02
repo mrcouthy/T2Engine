@@ -16,6 +16,7 @@ ___________________
 1.Main file name and content
 	a. {formatname}
 	b. {filename}
+	c. {totalrows}
 2.Main file content
 	a. {Row1}
 	b. {Row2}
@@ -24,3 +25,14 @@ ___________________
 	a.Columns
 4.All curly brackets
 	a.
+
+
+	RowsFormats(optional)
+	____________
+	Abc{0}
+	FirstRow:
+	AbcFirst{0}
+	LastRow:
+	AbcLast{0}
+	OtherRow:
+	AbcOther{0}

@@ -3,3 +3,4 @@ create table {fileName}
 haha
 {Row2}
 End end
+Total Rows: {tOtaLRows}

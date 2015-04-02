@@ -25,7 +25,7 @@ namespace T2Engine.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("../../WorkingFolder")]
         public string WorkingFolder {
             get {
                 return ((string)(this["WorkingFolder"]));

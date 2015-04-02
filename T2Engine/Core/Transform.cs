@@ -15,7 +15,7 @@ namespace T2Engine.Core
             {
                 foreach (var formatDirectory in formatDirectories)
                 {
-                    string outputFileName =FileRelated. GetFileFormatedFileName(inputFile, formatDirectory);
+                    string outputFileName = FileRelated.GetFileFormatedFileName(inputFile, formatDirectory);
                     string output = DoAFormat(formatDirectory, inputFile);
                     File.WriteAllText("Output/" + outputFileName, output);
                 }
@@ -41,40 +41,54 @@ namespace T2Engine.Core
             for (int rowcount = 0; rowcount < rowFormatFiles.Count(); rowcount++)
             {
                 string rowFormat = File.ReadAllText(rowFormatFiles[rowcount]);
-                string rowText = GetRowStrings(rowFormat, inputFile);
-                string rowFromatString = "{" + string.Format("Row{0}", rowcount+1) + "}";
-               
+                int totalRows = 0;
+                string rowText = GetRowStrings(rowFormat, inputFile, out totalRows);
+                string rowFromatString = "{" + string.Format("Row{0}", rowcount + 1) + "}";
+
                 finalOutput = finalOutput.ReplaceCaseInsensitive(rowFromatString, rowText);
-              
+                finalOutput = finalOutput.ReplaceCaseInsensitive("{totalrows}", totalRows.ToString());
             }
             //Replaces for main file
             finalOutput = finalOutput.ReplaceCaseInsensitive("{fileName}", inputFileName);
             finalOutput = finalOutput.ReplaceCaseInsensitive("{formatname}", formateName);
+
             return finalOutput;
         }
 
         /// <summary>
         ///    //{count} =rowcount, {col1} = first col , {col2} = second col etc
         /// </summary>
-        /// <param name="rowFormat"></param>
+        /// <param name="rowFormat">Read from files such as Row1.fmt</param>
         /// <param name="dataFilePath"></param>
         /// <returns></returns>
-        public string GetRowStrings(string rowFormat, string dataFilePath)
+        public string GetRowStrings(string rowFormat, string dataFilePath, out int totalRows)
         {
             var rowStrings = new List<string>();
             var dataRows = File.ReadAllLines(dataFilePath);
-            for (int count = 0; count < dataRows.Length; count++)
+            totalRows = dataRows.Length;
+            var firstRowFormat = Formats.GetFirstRowFormats(rowFormat);
+            var lastRowFormat = Formats.GetLastRowFormats(rowFormat);
+            var otherRowFormat = Formats.GetOtherRowFormats(rowFormat);
+
+            rowStrings.Add(TransformARow(firstRowFormat, dataRows, 0));
+            for (int count = 1; count < totalRows-1; count++)
             {
-                //get columns data
-                var columns = dataRows[count].Split(new[] { "," }, StringSplitOptions.None);
-                string rowString = rowFormat.ReplaceCaseInsensitive("{count}", count.ToString());
-                for (int i = 0; i < columns.Length; i++)
-                {
-                    rowString = rowString.ReplaceCaseInsensitive("{" + i + "}", columns[i]);
-                }
-                rowStrings.Add(rowString);
+                rowStrings.Add(TransformARow(otherRowFormat, dataRows, count));
             }
+            rowStrings.Add(TransformARow(lastRowFormat, dataRows, totalRows-1));
             return string.Join(System.Environment.NewLine, rowStrings);
+        }
+
+        private static string TransformARow(string rowFormat, string[] dataRows, int count)
+        {
+            //get columns data
+            var columns = dataRows[count].Split(new[] { "," }, StringSplitOptions.None);
+            string rowString = rowFormat.ReplaceCaseInsensitive("{count}", count.ToString());
+            for (int i = 0; i < columns.Length; i++)
+            {
+                rowString = rowString.ReplaceCaseInsensitive("{" + i + "}", columns[i]);
+            }
+            return rowString;
         }
     }
 }
