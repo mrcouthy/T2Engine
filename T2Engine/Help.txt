@@ -15,7 +15,7 @@ Replaces key words(Case insensitive)
 ___________________
 1.Main file name and content
 	a. {formatname}
-	b. {datafilename}
+	b. {filename}
 2.Main file content
 	a. {Row1}
 	b. {Row2}

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\FileRelated.cs" />
     <Compile Include="Core\Formats.cs" />
     <Compile Include="Core\Helpers.cs" />
     <Compile Include="Core\Transform.cs" />

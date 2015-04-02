@@ -21,9 +21,9 @@ namespace T2Engine
 
             var InputFiles = Directory.GetFiles("Input/");
             var FormatDirectories = Directory.GetDirectories("Templates/");
-          new Transform().Loop(FormatDirectories, InputFiles);
+            new Transform().Loop(FormatDirectories, InputFiles);
         }
 
-       
+
     }
 }

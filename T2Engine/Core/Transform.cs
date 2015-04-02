@@ -15,38 +15,11 @@ namespace T2Engine.Core
             {
                 foreach (var formatDirectory in formatDirectories)
                 {
-                    string outputFileName = GetFileFormatedFileName(inputFile, formatDirectory);
+                    string outputFileName =FileRelated. GetFileFormatedFileName(inputFile, formatDirectory);
                     string output = DoAFormat(formatDirectory, inputFile);
                     File.WriteAllText("Output/" + outputFileName, output);
                 }
             }
-        }
-
-
-        public string GetFileNameFormat(string formatDirectory)
-        {
-            var formats = Directory.GetFiles(formatDirectory);
-            var main = (from f in formats
-                        where Path.GetFileNameWithoutExtension(f).StartsWith("Main")
-                        select f).FirstOrDefault();
-            string mainfile = Path.GetFileNameWithoutExtension(main);
-            if (mainfile.IndexOf("{") > 0)
-            {
-                return mainfile.Substring(mainfile.IndexOf("{"));
-            }
-            else
-            {
-                return mainfile;
-            }
-        }
-
-
-        public string GetFileFormatedFileName(string inputFile, string formatDirectory)
-        {
-            string formateName = new DirectoryInfo(formatDirectory).Name;
-            string dataFileName = Path.GetFileNameWithoutExtension(inputFile);
-            string fileNameFormat = GetFileNameFormat(formatDirectory);
-            return fileNameFormat.ReplaceCaseInsensitive("{datafileName}", dataFileName).ReplaceCaseInsensitive("{formatName}", formateName);
         }
 
         private string DoAFormat(string formatDirectory, string inputFile)
@@ -64,15 +37,18 @@ namespace T2Engine.Core
             string inputFileName = Path.GetFileNameWithoutExtension(inputFile);
             string template = File.ReadAllText(main);
             string finalOutput = template;
-            for (int rowcount = 1; rowcount < rowFormatFiles.Count(); rowcount++)
+            //Replace all rows
+            for (int rowcount = 0; rowcount < rowFormatFiles.Count(); rowcount++)
             {
                 string rowFormat = File.ReadAllText(rowFormatFiles[rowcount]);
-                string rowFromatString = "{" + string.Format("Row{0}", rowcount) + "}";
                 string rowText = GetRowStrings(rowFormat, inputFile);
+                string rowFromatString = "{" + string.Format("Row{0}", rowcount+1) + "}";
+               
                 finalOutput = finalOutput.ReplaceCaseInsensitive(rowFromatString, rowText);
-                rowcount++;
+              
             }
-            finalOutput = template.ReplaceCaseInsensitive("{datafileName}", inputFileName);
+            //Replaces for main file
+            finalOutput = finalOutput.ReplaceCaseInsensitive("{fileName}", inputFileName);
             finalOutput = finalOutput.ReplaceCaseInsensitive("{formatname}", formateName);
             return finalOutput;
         }
