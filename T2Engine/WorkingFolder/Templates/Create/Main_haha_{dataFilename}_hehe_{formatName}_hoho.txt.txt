@@ -1,0 +1,5 @@
+create table {fileName}
+{Row1}
+haha
+{Row2}
+End end

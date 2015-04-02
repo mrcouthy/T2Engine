@@ -1,0 +1,6 @@
+Select 
+Apple ,
+Ball ,
+Cat ,
+From
+datafile1
