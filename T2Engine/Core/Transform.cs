@@ -81,7 +81,7 @@ namespace T2Engine.Core
         {
             //get columns data
             var columns = dataRows[count].Split(new[] { "," }, StringSplitOptions.None);
-            string rowString = rowFormat.ReplaceCaseInsensitive("{count}", count.ToString());
+            string rowString = rowFormat.ReplaceCaseInsensitive("{count}", (count+1).ToString());
             for (int i = 0; i < columns.Length; i++)
             {
                 rowString = rowString.ReplaceCaseInsensitive("{" + i + "}", columns[i]);
