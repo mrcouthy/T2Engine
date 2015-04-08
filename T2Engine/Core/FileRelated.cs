@@ -31,7 +31,7 @@ namespace T2Engine.Core
             string mainfile = Path.GetFileNameWithoutExtension(main);
             if (mainfile.IndexOf("{") > 0)
             {
-                return mainfile.Substring(mainfile.IndexOf("_"));
+                return mainfile.Substring(mainfile.IndexOf("_")+1);
             }
             else
             {
