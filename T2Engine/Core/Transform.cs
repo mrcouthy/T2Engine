@@ -7,7 +7,7 @@ namespace T2Engine.Core
 {
     public class Transform
     {
-        public void Loop(string[] formatDirectories, string[] inputFiles)
+        public void Loop(string[] formatDirectories, string[] inputFiles,bool isAppend)
         {
             foreach (var inputFile in inputFiles)
             {
@@ -15,7 +15,14 @@ namespace T2Engine.Core
                 {
                     string outputFileName = FileRelated.GetFileFormatedFileName(inputFile, formatDirectory);
                     string output = DoAFormat(formatDirectory, inputFile);
-                    File.WriteAllText("Output/" + outputFileName, output);
+                    if (isAppend)
+                    {
+                        File.AppendAllText("Output/" + outputFileName, output);
+                    }
+                    else
+                    {
+                        File.WriteAllText("Output/" + outputFileName, output);    
+                    }
                 }
             }
         }
