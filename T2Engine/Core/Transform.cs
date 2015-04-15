@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using T2Engine.Helpers;
+using T2Engine.Utilities;
+
 namespace T2Engine.Core
 {
     public class Transform
@@ -40,12 +42,12 @@ namespace T2Engine.Core
                                   orderby f
                                   select f).ToList();
             string inputFileName = Path.GetFileNameWithoutExtension(inputFile);
-            string template = File.ReadAllText(main);
+            string template = FileHelper.ReadAllText(main);
             string finalOutput = template;
             //Replace all rows
             for (int rowcount = 0; rowcount < rowFormatFiles.Count(); rowcount++)
             {
-                string rowFormat = File.ReadAllText(rowFormatFiles[rowcount]);
+                string rowFormat = FileHelper.ReadAllText(rowFormatFiles[rowcount]);
                 int totalRows = 0;
                 string rowText = GetRowStrings(rowFormat, inputFile, out totalRows);
                 string rowFromatString = "{" + string.Format("Row{0}", rowcount + 1) + "}";
@@ -69,7 +71,7 @@ namespace T2Engine.Core
         public string GetRowStrings(string rowFormat, string dataFilePath, out int totalRows)
         {
             var rowStrings = new List<string>();
-            var dataRows = File.ReadAllLines(dataFilePath);
+            var dataRows = FileHelper.ReadAllLines(dataFilePath);
             totalRows = dataRows.Length;
             var firstRowFormat = Formats.GetFirstRowFormats(rowFormat);
             var lastRowFormat = Formats.GetLastRowFormats(rowFormat);

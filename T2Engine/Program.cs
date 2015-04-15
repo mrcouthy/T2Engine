@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mime;
 using CLAP;
 using T2Engine.Core;
+using T2Engine.Utilities;
 
 namespace T2Engine
 {
@@ -58,12 +59,12 @@ namespace T2Engine
             var formatDirectories = Directory.GetDirectories("Templates/");
             foreach (var inputFile in inputFiles)
             {
-                var a = File.ReadAllLines(inputFile);
+                var a = FileHelper.ReadAllLines(inputFile);
                 //  string outputFileName = FileRelated.GetFileFormatedFileName(inputFile, formatDirectory);
                 foreach (var b in a)
                 {
                    // string filname = b.Substring(0, b.IndexOf(".")) + ".csv";
-                   // string ins = File.ReadAllText(@"D:\teng\in.csv");
+                   // string ins = FileHelper.ReadAllText(@"D:\teng\in.csv");
                     string ins = "";
                     string filname = b + ".csv";
                     File.WriteAllText("Output/" + filname, ins);

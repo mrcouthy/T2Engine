@@ -55,6 +55,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\FileHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
