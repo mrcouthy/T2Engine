@@ -63,7 +63,7 @@ namespace T2Engine.Core
         }
 
         /// <summary>
-        ///    //{count} =rowcount, {col1} = first col , {col2} = second col etc
+        ///    //{count} =rowcount, {0} = first col , {1} = second col etc
         /// </summary>
         /// <param name="rowFormat">Read from files such as Row1.fmt</param>
         /// <param name="dataFilePath"></param>
@@ -71,7 +71,7 @@ namespace T2Engine.Core
         public string GetRowStrings(string rowFormat, string dataFilePath, out int totalRows)
         {
             var rowStrings = new List<string>();
-            var dataRows = FileHelper.ReadAllLines(dataFilePath);
+            var dataRows = FileHelper.ReadAllLines(dataFilePath);//dont read after blank or indication of end of row?
             totalRows = dataRows.Length;
             var firstRowFormat = Formats.GetFirstRowFormats(rowFormat);
             var lastRowFormat = Formats.GetLastRowFormats(rowFormat);

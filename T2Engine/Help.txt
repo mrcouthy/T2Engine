@@ -36,3 +36,8 @@ ___________________
 	AbcLast{0}
 	OtherRow:
 	AbcOther{0}
+
+
+	Template Folder
+	________________
+	All files in the template folder except ones starting with Main and Row are ignored.
