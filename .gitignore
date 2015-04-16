@@ -1,5 +1,5 @@
 /T2Engine/bin
 /T2Engine/obj
 /*.suo
-/Duplicator/*
-/Duplicator/*
+/Duplicator/bin
+/Duplicator/obj
