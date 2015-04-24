@@ -9,7 +9,7 @@ namespace T2Engine.Core
 {
     public class Transform
     {
-        public void Loop(string[] formatDirectories, string[] inputFiles,bool isAppend)
+        public void Loop(string[] formatDirectories, string[] inputFiles, bool isAppend)
         {
             foreach (var inputFile in inputFiles)
             {
@@ -23,17 +23,17 @@ namespace T2Engine.Core
                     }
                     else
                     {
-                        File.WriteAllText("Output/" + outputFileName, output);    
+                        File.WriteAllText("Output/" + outputFileName, output);
                     }
                 }
             }
         }
 
-        private string DoAFormat(string formatDirectory, string inputFile)
+        private string DoAFormat(string templateFolder, string inputFile)
         {
-            string formateName = new DirectoryInfo(formatDirectory).Name;
+            string formateName = new DirectoryInfo(templateFolder).Name;
             var replaceStrings = new string[] { " ", ".", @"/", "-" };
-            var formats = Directory.GetFiles(formatDirectory);
+            var formats = Directory.GetFiles(templateFolder);
             var main = (from f in formats
                         where Path.GetFileNameWithoutExtension(f).StartsWith("Main")
                         select f).FirstOrDefault();
@@ -65,35 +65,35 @@ namespace T2Engine.Core
         /// <summary>
         ///    //{count} =rowcount, {0} = first col , {1} = second col etc
         /// </summary>
-        /// <param name="rowFormat">Read from files such as Row1.fmt</param>
+        /// <param name="rowFormats">Read from files such as Row1.fmt</param>
         /// <param name="dataFilePath"></param>
         /// <returns></returns>
-        public string GetRowStrings(string rowFormat, string dataFilePath, out int totalRows)
+        public string GetRowStrings(string rowFormats, string dataFilePath, out int totalRows)
         {
             var rowStrings = new List<string>();
-            var dataRows = FileHelper.ReadAllLines(dataFilePath);//dont read after blank or indication of end of row?
-            totalRows = dataRows.Length;
-            var firstRowFormat = Formats.GetFirstRowFormats(rowFormat);
-            var lastRowFormat = Formats.GetLastRowFormats(rowFormat);
-            var otherRowFormat = Formats.GetOtherRowFormats(rowFormat);
+            var dataRows = FileHelper.ReadCSV(dataFilePath);//dont read after blank or indication of end of row?
+            totalRows = dataRows.Count;
+            var firstRowFormat = Formats.GetFirstRowFormats(rowFormats);
+            var lastRowFormat = Formats.GetLastRowFormats(rowFormats);
+            var otherRowFormat = Formats.GetOtherRowFormats(rowFormats);
 
             rowStrings.Add(TransformARow(firstRowFormat, dataRows, 0));
-            for (int count = 1; count < totalRows-1; count++)
+            for (int count = 1; count < totalRows - 1; count++)
             {
                 rowStrings.Add(TransformARow(otherRowFormat, dataRows, count));
             }
-            rowStrings.Add(TransformARow(lastRowFormat, dataRows, totalRows-1));
+            rowStrings.Add(TransformARow(lastRowFormat, dataRows, totalRows - 1));
             return string.Join(System.Environment.NewLine, rowStrings);
         }
 
-        private static string TransformARow(string rowFormat, string[] dataRows, int count)
+        private static string TransformARow(string rowFormat, List<List<string>> dataRows, int count)
         {
             //get columns data
-            var columns = dataRows[count].Split(new[] { "," }, StringSplitOptions.None);
-            string rowString = rowFormat.ReplaceCaseInsensitive("{count}", (count+1).ToString());
-            for (int i = 0; i < columns.Length; i++)
+            var columns = dataRows[count];
+            string rowString = rowFormat.ReplaceCaseInsensitive("{count}", (count + 1).ToString());
+            for (int i = 0; i < columns.Count; i++)
             {
-                rowString = rowString.ReplaceCaseInsensitive("{" + i + "}", columns[i]);
+                rowString = rowString.ReplaceCaseInsensitive("{" + i + "}", columns[i].Trim());
             }
             return rowString;
         }

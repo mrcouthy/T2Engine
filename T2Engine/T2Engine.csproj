@@ -35,6 +35,7 @@
     <Reference Include="CLAP">
       <HintPath>..\packages\CLAP.4.6\lib\net35\CLAP.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
